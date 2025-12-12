@@ -1,10 +1,4 @@
-/* ipc.c
-   Parent sends the same message via BOTH SysV Message Queue and Shared Memory simultaneously.
-   Child receives both, decrypts and prints both.
-   Then child replies via BOTH MQ and SHM; parent receives both replies and prints them.
-   AES-256-GCM via OpenSSL (demo key). Compile:
-   gcc ipc.c -o ipc -lcrypto
-*/
+
 
 #include <stdio.h>
 #include <stdlib.h>
