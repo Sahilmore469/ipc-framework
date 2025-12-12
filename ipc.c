@@ -1,23 +1,3 @@
-/*
-======================================================================
-        BUILDING A COMPREHENSIVE INTER-PROCESS COMMUNICATION
-                             (IPC) FRAMEWORK
-                      (AES-256-GCM - Readable Output)
-----------------------------------------------------------------------
-This is your original IPC demo (Pipes, MsgQueue, Shared Memory)
-with AES-256-GCM encryption added internally. The program encrypts
-messages before sending and decrypts after receiving — but prints
-the decrypted (readable) message (Option 1 you chose).
-
-Notes:
-- Uses OpenSSL libcrypto. Install: sudo apt install libssl-dev
-- Compile with: gcc ipc.c -o ipc -lcrypto
-- Create ftok files if not present: touch msgfile shmfile
-- For demo simplicity a fixed key is used here; DO NOT hardcode keys
-  in production — use TPM/HSM or a secure key derivation method.
-======================================================================
-*/
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
