@@ -191,14 +191,17 @@ int main(void) {
     /* Create message queue */
     key_t mq_key = ftok("msgfile", 65);
     if (mq_key == (key_t)-1) {
+        log_event("ERROR: ftok(msgfile) failed");
         perror("ftok msgfile");
         return 1;
     }
     int qid = msgget(mq_key, 0666 | IPC_CREAT);
     if (qid == -1) {
+        log_event("ERROR: msgget failed");
         perror("msgget");
         return 1;
     }
+
 
     /* Create shared memory */
     key_t shm_key = ftok("shmfile", 66);
@@ -209,10 +212,12 @@ int main(void) {
     }
     int shmid = shmget(shm_key, sizeof(struct shm_area), 0666 | IPC_CREAT);
     if (shmid == -1) {
+        log_event("ERROR: shmget failed");
         perror("shmget");
         msgctl(qid, IPC_RMID, NULL);
         return 1;
     }
+
     struct shm_area *area = shmat(shmid, NULL, 0);
     if (area == (void*)-1) {
         perror("shmat");
