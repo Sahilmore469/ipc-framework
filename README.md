@@ -92,6 +92,20 @@ Menu Options:
 2 → Message Queue
 3 → Shared Memory
 
+## Example Usage
+
+### Pipe Communication
+Parent: Hello via Pipe  
+Child: Hello from Child using PIPE  
+
+### Message Queue
+Parent: Secret Message MQ  
+Child: Received MQ message successfully  
+
+### Shared Memory
+Parent: Shared Memory Message  
+Child: Decrypted message: Shared Memory Message
+
 
 Each selection performs an encrypted IPC transfer and prints the decrypted output.
 
