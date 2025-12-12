@@ -1,218 +1,183 @@
-This project demonstrates a complete Inter-Process Communication (IPC) framework using Pipes, System V Message Queues, and System V Shared Memory in C on a Linux environment.
-It showcases how processes communicate, synchronize, and exchange data, forming the backbone of multitasking in modern operating systems.
+🔐 Encrypted Inter-Process Communication (IPC) Framework
+Pipes | Message Queues | Shared Memory | AES-256-GCM Security
 
-🧩 Project Overview
-
-Inter-Process Communication enables processes to share information and coordinate their activities.
-This framework provides:
-
-A menu-driven interface
-
-Clean implementation of three IPC mechanisms
-
-A central logging system for debugging
-
-Real-world style examples with parent-child processes
-
-Safe cleanup of all IPC resources
+This project implements a secure, modular, and unified Inter-Process Communication (IPC) Framework using C, POSIX APIs, and OpenSSL.
+It integrates Pipes, Message Queues, and Shared Memory under a single structure and adds AES-256-GCM encryption to ensure confidentiality and integrity of all process-to-process communication.
 
 🚀 Features
-✔ Pipe Communication (POSIX Pipes)
+✅ Core IPC Communication
 
-Unidirectional data transfer between parent and child processes using:
+Full support for:
 
-pipe()
+Pipes
 
-fork()
+Message Queues
 
-read()
+Shared Memory
 
-write()
+Unified API for all three mechanisms
 
-Useful for simple command pipelines (e.g., ls | grep txt).
+Automatic packing/unpacking of encrypted data
 
-✔ Message Queue Communication (System V)
+🔐 Security Layer
 
-Supports asynchronous communication between processes using:
+AES-256-GCM encryption and decryption
 
-msgget()
+Random IV generation using OpenSSL RAND_bytes()
 
-msgsnd()
+GCM authentication tag for tamper detection
 
-msgrcv()
+Secure message handling (IV | TAG | LENGTH | CIPHERTEXT)
 
-This is similar to how servers handle queued tasks in microservice architecture.
+Logging of all events to ipc_log.txt
 
-✔ Shared Memory Communication (System V)
+👁 Management & Monitoring
 
-Fastest IPC method.
-Processes read/write to the same memory region using:
+Menu-driven interface
 
-shmget()
+Displays decrypted output to user
 
-shmat()
+Tracks:
 
-shmdt()
+Sent messages
 
-Widely used in games, sensor systems, and real-time applications.
+Received messages
 
-✔ Logging System
+Encryption/decryption success or failure
 
-All events are stored in ipc_log.txt, including:
+📂 Project Structure
+📦 Encrypted-IPC-Framework
+│
+├── ipc_encrypted.c          # Main implementation
+├── ipc_log.txt              # Runtime logs
+├── msgfile                  # ftok file for Message Queue
+├── shmfile                  # ftok file for Shared Memory
+└── README.md                # Project documentation
 
-Message sent/received
+🧩 System Architecture
 
-Shared memory writes/reads
+Modules included:
 
-Pipe communication events
+IPC Core Communication Engine
 
-Errors with timestamps
+Security & Encryption Layer (AES-256-GCM)
 
-This helps with debugging and report documentation.
+Management & Monitoring Interface
 
-🏗 System Architecture
-                 ┌─────────────────────────┐
-                 │       Main Menu         │
-                 └───────────┬─────────────┘
-                             │
-      ┌──────────────────────┼────────────────────────┐
-      │                      │                        │
-      ▼                      ▼                        ▼
-┌────────────┐       ┌──────────────┐        ┌────────────────┐
-│  Pipe IPC  │       │ MessageQueue │        │ Shared Memory  │
-└────────────┘       └──────────────┘        └────────────────┘
-      │                      │                        │
-      ▼                      ▼                        ▼
-    Send/Read            Send/Receive             Write/Read
-      │                      │                        │
-      └──────────────→ Logging System ←──────────────┘
+All IPC operations follow the flow:
 
-📌 Use Cases / Applications
-✔ Operating Systems
+User Input → Security Layer → IPC Engine → Processes → Output → Logs
 
-Used internally by OS to manage multitasking and system processes.
+📦 Requirements
 
-✔ Client–Server Communication
+Linux-based OS (Ubuntu, Fedora, Kali, etc.)
 
-Message queues represent task queues used by:
+GCC Compiler
 
-Amazon backend
+OpenSSL development libraries
 
-Banking systems
+Install OpenSSL:
 
-Chat systems
+sudo apt install libssl-dev
 
-✔ Real-time Data Sharing
+🛠 Compilation & Execution
+Compile:
+gcc ipc.c -o ipc -lcrypto
 
-Shared memory is used in:
-
-Video games (fast rendering)
-
-Robotics
-
-Sensor systems
-
-✔ Shell Commands
-
-Pipes enable commands like:
-
-ps aux | grep chrome
-
-🛠 How to Build and Run
-1️⃣ Install GCC (if needed)
-sudo apt update
-sudo apt install build-essential -y
-
-2️⃣ Create project folder
-mkdir ipc_project
-cd ipc_project
-
-3️⃣ Create ftok() key files
-touch msgfile shmfile
-
-4️⃣ Save the source code as ipc.c
-5️⃣ Compile
-gcc ipc.c -o ipc
-
-6️⃣ Run
+Run the program:
 ./ipc
 
-7️⃣ View logs
-cat ipc_log.txt
+Menu Options:
+1 → Pipe Communication
+2 → Message Queue
+3 → Shared Memory
 
-🧠 Technical Concepts Used
-🔹 Pipes
 
-Simple data flow — parent writes → child reads
-Used for:
+Each selection performs an encrypted IPC transfer and prints the decrypted output.
 
-Shell pipelines
+🧪 Example Output
+===== IPC Framework Menu (Encrypted) =====
+1. Pipe Communication
+2. Message Queue
+3. Shared Memory
+Enter Choice → 1
 
-Real-time process output
+PIPE Received → Hello from Child using PIPE
 
-🔹 Message Queues
+📊 Logging
 
-Buffered messages; processes communicate even if not running at same time.
+All communication events are stored in:
 
-🔹 Shared Memory
+ipc_log.txt
 
-Fastest method; both processes read/write simultaneously with minimal overhead.
 
-🔹 Logging
+Events include:
 
-Used to trace flow, identify failures, and debug IPC behavior.
+Encrypted message sent
 
-🔐 Security Considerations
+Decrypted message received
 
-IPC can be targeted by:
+Unauthorized access attempt
 
-Race conditions
+Encryption/Decryption failure
 
-Unauthorized access
+🔧 Technologies Used
 
-Data corruption
+C Programming Language
 
-Possible enhancements:
+POSIX IPC (pipe, msgget, shmget, etc.)
 
-Add semaphores for synchronization
+OpenSSL EVP API
 
-Encrypt shared memory regions
+GCC / GDB
 
-Add authentication for message queues
+Linux system calls
 
-🌟 Future Enhancements
+Makefile (optional)
 
-Add POSIX Shared Memory (shm_open)
+🛡 Security Details
 
-Add POSIX Message Queues (mq_open)
+This framework uses:
 
-Add binary and counting semaphores
+AES-256-GCM encryption
 
-Add full client–server model using IPC
+32-byte encryption key
 
-Build a GUI to visualize IPC communication
+12-byte IV
 
-Add multithreading support
+16-byte authentication tag
 
-📚 Learning Outcomes
+Resistance against:
 
-By using this framework, you learn:
+Replay attacks
 
-How Linux processes communicate
+Data tampering
 
-How system calls work in real-time
+Unauthorized reading
 
-How to prevent race conditions
+🧭 Future Enhancements
 
-How shared memory and message queues function internally
+Dynamic key exchange (Diffie-Hellman / RSA)
 
-How to design modular system programs
+Cross-machine IPC via sockets
+
+GUI-based monitoring dashboard
+
+Shared library conversion (.so)
+
+Real-time message prioritization
+
+Integration with Docker for sandbox testing
+
+
+
+👤 Author
+
+Sahil Santosh More
+B.Tech CSE – Lovely Professional University
+2025
 
 📜 License
 
-Free to use for educational and research purposes.
-
-🎉 Conclusion
-
-This project provides a hands-on, practical demonstration of how IPC works in Linux.
-It is ideal for OS labs, coursework, system programming practice, and building larger multitasking applications.
+This project is for educational and research purposes.
+You may modify or extend it freely.
